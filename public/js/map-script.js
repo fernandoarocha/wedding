@@ -9,11 +9,11 @@ function GmapInit() {
 		var $this           = $(this),
 			lat             = '',
 			lng             = '',
-			zoom            = 14,
+			zoom            = 17,
 			scrollwheel     = false,
 			zoomcontrol 	= true,
 			draggable       = true,
-			mapType         = google.maps.MapTypeId.ROADMAP,
+			mapType         = google.maps.MapTypeId.HYBRID,
 			title           = '',
 			contentString   = '',
 			dataLat         = $this.data('lat'),
@@ -108,7 +108,7 @@ function GmapInit() {
         ]
     },
     {
-        "featureType": "poi",
+        "featureType": "poi.church",
         "elementType": "all",
         "stylers": [
             {
@@ -176,6 +176,6 @@ function GmapInit() {
 function MapLoadScript() {
 	var script = document.createElement('script');
 	script.type = 'text/javascript';
-	script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&' + 'callback=GmapInit';
+	script.src = 'https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBtqfuwi9dBkcgKGPc7iFA1XphKeJErzNE&v=3.exp&' + 'callback=GmapInit';
 	document.body.appendChild(script);
 }

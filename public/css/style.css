@@ -1038,7 +1038,7 @@ ul,li{
 	font-size:20px;
 	font-weight:400;
 	color:#ffffff;
-	text-transform:capitalize;
+	text-transform:none;
 }
 
 .main-slider .tp-caption{
@@ -1342,6 +1342,39 @@ ul,li{
 	color:#ffffff;	
 }
 
+
+@media screen and (max-width : 990px) {
+	.rsvp {margin-top: 30px;}
+}
+
+
+.text-area{
+	border: solid 1px #fc5a61 !important;
+	border-radius: 2px !important;
+}
+
+
+/***
+
+====================================================================
+	Modal Style
+====================================================================
+
+***/
+
+
+.modal-event-width{
+	width: 860px !important;
+	margin: 135px auto !important;
+}
+
+.no-border{
+	border-radius: none;
+}
+
+
+
+
 /*** 
 
 ====================================================================
@@ -1354,7 +1387,7 @@ ul,li{
 	position:relative;
 	padding-bottom:25px;
 	background:url(../images/icons/title-separator.png) center bottom no-repeat;
-	margin-bottom:65px;	
+	margin-bottom:65px;
 }
 
 .sec-title.no-bg{
@@ -1367,7 +1400,7 @@ ul,li{
 	word-spacing:1px;
 	font-weight:700;
 	color:#fc5a61;
-	text-transform:capitalize;
+	text-transform:none;
 	font-family: 'Tangerine', cursive;	
 }
 
@@ -3455,6 +3488,17 @@ ul,li{
 	text-transform:capitalize;
 	line-height:1.2em;
 	font-family: 'Tangerine', cursive;
+}
+
+.main-title{
+	font-size:64px;
+	font-weight:700;
+	text-transform:none;
+	line-height:1.2em;
+	font-family: 'Tangerine', cursive;
+	width: 100%;
+	text-align: center;
+	height: 150px;
 }
 
 

@@ -47,6 +47,13 @@
 	}
 	
 	
+	
+	//Modal
+	$('#modal1').on('click', function(){
+		$('.modal-content').append(' <section class="map-section"> <div class="auto-container"> <div class="map-container"> <div class="map-canvas"data-zoom="17"data-lat="-19.921253"data-lng="-43.951914"data-type="roadmap"data-hue="#ffc400"data-title="Igreja São Sebastião"data-content=""style="height: 460px; width: 100%"> </div> </div> </div> </section>');
+	});
+
+	
 	//Revolution Slider
 	if($('.main-slider .tp-banner').length){
 
@@ -124,36 +131,34 @@
 	  });
 		
 	}
-	
-	
+
+
 	//Event Countdown Timer
 	if($('.time-countdown').length){  
 		$('.time-countdown').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
 		$this.countdown(finalDate, function(event) {
-			var $this = $(this).html(event.strftime('' + '<div class="counter-column"><span class="count">%m</span>Months</div>' + '<div class="counter-column"><span class="count">%d</span>Days</div> ' + '<div class="counter-column"><span class="count">%H</span>Hours</div>  ' + '<div class="counter-column"><span class="count">%M</span>Minutes</div>  ' + '<div class="counter-column"><span class="count">%S</span>Seconds</div>'));
+			var $this = $(this).html(event.strftime('' + '<div class="counter-column"><span class="count">%m</span>Meses</div>' + '<div class="counter-column"><span class="count">%d</span>Dias</div> ' + '<div class="counter-column"><span class="count">%H</span>Horas</div>  ' + '<div class="counter-column"><span class="count">%M</span>Minutos</div>  ' + '<div class="counter-column"><span class="count">%S</span>Segundos</div>'));
 		});
 	 });
 	}
-	
-	
+
+	//Menu Slide
+	var navbarheight = $(".main-menu").outerHeight()+1;
+	var menuItems = $('nav li a');
+	menuItems.click(function(e){
+		var href = $(this).attr("href"),
+			offsetTop = href === "#" ? 0 : $(href).offset().top-navbarheight+25;
+		$('body,html').stop().animate({ scrollTop: offsetTop }, 1000, 'easeInOutExpo');
+		e.preventDefault();
+	});
+
 	//Wishes Slider With Custom Pager
 	if($('.wishes-area .slider').length){
-		var slider1 = $(".wishes-area .slider").bxSlider({
-			adaptiveHeight: true,
-			auto:true,
-			controls: false,
-			pause: 5000,
-			speed: 1500,
-			pagerCustom: '#wishes-pager',
-			onSlideAfter: function() {
-				slider1.stopAuto();
-				slider1.startAuto();
-        	}
-		});
+
 	}
-	
-	
+
+
 	//Sponsors Carousel
 	if ($('.sponsors-carousel').length) {
 		$('.sponsors-carousel').owlCarousel({
@@ -396,5 +401,186 @@
 		handlePreloader();
 		enableMasonry();
 	});
+
+/* ==========================================================================
+ Firebase methods
+ ========================================================================== */
+
+	var signInButton = document.getElementById('sign-in-button');
+	var signOutButton = document.getElementById('sign-out-button');
+	var splashPage = document.getElementById('page-splash');
+	var userSplash = document.getElementById('user-logged');
+	var sendmessage = document.getElementById('send-message');
+	var recentPostsSection = document.getElementById('leavemessage');
+	var listeningFirebaseRefs = [];
+
+	// Bind sing in button
+	signInButton.addEventListener('click', function() {
+		var provider = new firebase.auth.FacebookAuthProvider();
+		// [END createprovider]
+		// [START addscopes]
+		provider.addScope('user_birthday');
+		// [END addscopes]
+		// [START signin]
+
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+			// This gives you a Facebook Access Token. You can use it to access the Facebook API.
+			var token = result.credential.accessToken;
+			// The signed-in user info.
+			var user = result.user;
+
+		}).catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			// The email of the user's account used.
+			var email = error.email;
+			// The firebase.auth.AuthCredential type that was used.
+			var credential = error.credential;
+			// [START_EXCLUDE]
+			if (errorCode === 'auth/account-exists-with-different-credential') {
+				alert('You have already signed up with a different auth provider for that email.');
+				// If you are using multiple auth providers on your app you should handle linking
+				// the user's accounts here.
+			} else {
+				console.error(error);
+			}
+			// [END_EXCLUDE]
+		});
+		
+	});
+
+	signOutButton.addEventListener('click', function(){
+		firebase.auth().signOut();
+	});
+
+	sendmessage.addEventListener('click', function(){
+		var message = $('#user-message').val();
+		newPostForCurrentUser(message);
+	});
+
+
+	// Listen for auth state changes
+	firebase.auth().onAuthStateChanged(onAuthStateChanged);
+	var currentUID;
+
+	function onAuthStateChanged(user) {
+		// We ignore token refresh events.
+		if (user && currentUID === user.uid) {
+			return;
+		}
+
+		cleanupUi();
+		if (user) {
+			currentUID = user.uid;
+			splashPage.style.display = 'none';
+			userSplash.style.display = '';
+
+			writeUserData(user.uid, user.displayName, user.email, user.photoURL);
+			startDatabaseQueries();
+		} else {
+			// Display the splash page where you can sign-in.
+			splashPage.style.display = '';
+			userSplash.style.display = 'none';
+		}
+	}
+
+	function newPostForCurrentUser(text) {
+		// [START single_value_read]
+		var userId = firebase.auth().currentUser.uid;
+		return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+			var username = snapshot.val().username;
+			// [START_EXCLUDE]
+			return writeNewPost(firebase.auth().currentUser.uid, username,
+				firebase.auth().currentUser.photoURL, text);
+			// [END_EXCLUDE]
+		});
+		// [END single_value_read]
+	}
+
+	function writeNewPost(uid, username, picture, body) {
+		// A post entry.
+		var postData = {
+			author: username,
+			uid: uid,
+			body: body,
+			starCount: 0,
+			authorPic: picture
+		};
+
+		// Get a key for a new Post.
+		var newPostKey = firebase.database().ref().child('posts').push().key;
+
+		// Write the new post's data simultaneously in the posts list and the user's post list.
+		var updates = {};
+		updates['/posts/' + newPostKey] = postData;
+		updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+
+		return firebase.database().ref().update(updates);
+	}
+
+	/**
+	 * Writes the user's data to the database.
+	 */
+	// [START basic_write]
+		function writeUserData(userId, name, email, imageUrl) {
+			firebase.database().ref('users/' + userId).set({
+				username: name,
+				email: email,
+				profile_picture : imageUrl
+			});
+			$('#user-img').attr('src', imageUrl);
+			$('#user-name').text(name);
+
+		}
+	// [END basic_write]
+
+	/**
+	 * Starts listening for new posts and populates posts lists.
+	 */
+	function startDatabaseQueries() {
+		var myUserId = firebase.auth().currentUser.uid;
+		var recentPostsRef = firebase.database().ref('posts').limitToLast(10);
+
+
+		var fetchPosts = function(postsRef, sectionElement) {
+			postsRef.on('child_added', function(data) {
+				var author = data.val().author || 'Anonymous';
+				var containerElement = sectionElement.getElementsByClassName('slider-message')[0];
+				containerElement.insertBefore(
+					createPostElement(data.key, data.val().body, author, data.val().uid, data.val().authorPic),
+					containerElement.firstChild);
+			});
+		};
+
+		fetchPosts(recentPostsRef, recentPostsSection);
+		listeningFirebaseRefs.push(recentPostsRef);
+	}
+
+
+	function createPostElement(postId, body, text, author, authorPic) {
+		var uid = firebase.auth().currentUser.uid;
+
+		var html = '<li class="slide-item"><div class="slide-text"></div><div class="slide-info"><div class="title" id="title"></div><a><div class="wishes-thumb"><img class="img-circle image-message" src="" alt="" title=""></div></a></div></li>';
+
+
+		var slider = document.getElementsByClassName('slider-message')[0];
+		$(slider).append(html);
+		var postElement = slider.firstChild;
+		var message = postElement.getElementsByClassName('slide-text')[0].innerText = body;
+		var person = postElement.getElementsByClassName('title')[0].innerText = text;
+		var picture = postElement.getElementsByClassName('image-message')[0].src = authorPic;
+
+		return postElement;
+	}
+
+
+
+	/**
+	 * Cleanups the UI and removes all Firebase listeners.
+	 */
+	function cleanupUi() {
+		
+	}
 
 })(window.jQuery);
