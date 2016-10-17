@@ -429,6 +429,8 @@
 			// The signed-in user info.
 			var user = result.user;
 
+			location.reload();
+
 		}).catch(function(error) {
 			// Handle Errors here.
 			var errorCode = error.code;
@@ -452,6 +454,7 @@
 
 	signOutButton.addEventListener('click', function(){
 		firebase.auth().signOut();
+		location.reload();
 	});
 
 	sendmessage.addEventListener('click', function(){
@@ -469,8 +472,8 @@
 		if (user && currentUID === user.uid) {
 			return;
 		}
-
 		cleanupUi();
+
 		if (user) {
 			currentUID = user.uid;
 			splashPage.style.display = 'none';
@@ -517,7 +520,9 @@
 		updates['/posts/' + newPostKey] = postData;
 		updates['/user-posts/' + uid + '/' + newPostKey] = postData;
 
-		return firebase.database().ref().update(updates);
+		firebase.database().ref().update(updates);
+
+		location.reload();
 	}
 
 	/**
@@ -547,7 +552,6 @@
 			postsRef.on('child_added', function(data) {
 				var author = data.val().author || 'Anonymous';
 				ul.append(createPostElement(data.key, data.val().body, author, data.val().authorPic));
-
 			});
 		};
 
@@ -573,38 +577,43 @@
 	}
 
 	function cleanupUi() {
+		$('.slider-message li').remove();
+		$('.slider-message div').remove();
+		$('.slider-message').removeClass('owl-carousel owl-theme owl-loaded');
 
+		mountSlider();
 	}
 
+	function mountSlider(){
 	var timeout = setTimeout(function () {
-		var slider1 = $('.slider-message').owlCarousel({
-			loop:true,
-			margin:20,
-			nav:true,
-			autoplayHoverPause:false,
-			autoplay: 6000,
-			smartSpeed: 700,
-			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
-			responsive:{
-				0:{
-					items:1
-				},
-				600:{
-					items:1
-				},
-				760:{
-					items:2
-				},
-				1024:{
-					items:3
-				},
-				1200:{
-					items:3
+			var slider1 = $('.slider-message').owlCarousel({
+				loop:true,
+				margin:20,
+				nav:true,
+				autoplayHoverPause:false,
+				autoplay: 6000,
+				smartSpeed: 700,
+				navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
+				responsive:{
+					0:{
+						items:1
+					},
+					600:{
+						items:1
+					},
+					760:{
+						items:2
+					},
+					1024:{
+						items:3
+					},
+					1200:{
+						items:3
+					}
 				}
-			}
-		});
-
-		clearTimeout(timeout);
-	},5000)
+			});
+			clearTimeout(timeout);
+		},3000)
+	}
 
 })(window.jQuery);
