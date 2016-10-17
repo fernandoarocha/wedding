@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="weedingApp">
 
 <!-- Mirrored from wp1.themexlab.com/html2/flora/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Oct 2016 17:45:03 GMT -->
 <head>
@@ -17,7 +17,6 @@
 <link href="css/responsive.css" rel="stylesheet">
 <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <!--[if lt IE 9]><script src="js/respond.js"></script><![endif]-->
-
 <!--Firebase -->
 <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
 <script>
@@ -34,7 +33,7 @@
 
 </head>
 
-<body>
+<body ng-controller="A">
 <div class="page-wrapper">
  	
     <!-- Preloader -->
@@ -740,11 +739,17 @@
         	<div class="sec-title text-center">
             	<h2>Mensagens dos amigos</h2>
             </div>
-
-            <!--Slider-->
             <ul class="slider slider-message">
-
+                <li class="slide-item" ng-repeat="item in templateData">
+                    <div class="slide-text">{{item.body}}</div>
+                    <div class="slide-info">
+                        <div class="title" id="title">{{item.text}}</div>
+                        <div class="wishes-thumb">
+                            <img class="img-circle image-message" ng-src="{{item.authorPic}}" alt="imagemProfile"></div>
+                    </div>
+                </li>
             </ul>
+            <!--Slider-->
         </div>
 
     </section>
@@ -1121,7 +1126,10 @@
 <!--Scroll to top-->
 <div class="scroll-to-top scroll-to-target" data-target=".main-header"><span class="icon fa fa-long-arrow-up"></span></div>
 
+
 <script src="js/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+<script src="js/app.js"></script>
 <script src="js/jquery.easing.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/map-script.js"></script>
