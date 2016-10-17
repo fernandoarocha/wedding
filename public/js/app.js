@@ -22,9 +22,8 @@
         var sendmessage = document.getElementById('send-message');
         var recentPostsSection = document.getElementById('leavemessage');
         var listeningFirebaseRefs = [];
-        $scope.templateData = [];
-
-        // Bind sing in button
+        $scope.teste = 'teste';
+// Bind sing in button
         signInButton.addEventListener('click', function () {
             var provider = new firebase.auth.FacebookAuthProvider();
             // [END createprovider]
@@ -152,7 +151,7 @@
         function startDatabaseQueries() {
             var myUserId = firebase.auth().currentUser.uid;
             var recentPostsRef = firebase.database().ref('posts').limitToLast(10);
-
+            
             var fetchPosts = function (postsRef, sectionElement) {
                 postsRef.on('child_added', function (data) {
                     var author = data.val().author || 'Anonymous';
