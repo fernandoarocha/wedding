@@ -160,7 +160,7 @@
 
 
 	//Sponsors Carousel
-	if ($('.sponsors-carousel').length) {
+	/*if ($('.sponsors-carousel').length) {
 		$('.sponsors-carousel').owlCarousel({
 			loop:true,
 			margin:20,
@@ -190,7 +190,7 @@
 
 		$('.sponsors-carousel .owl-stage').css('width', '315px')
 	}
-	
+	*/
 	
 	//Single Item Carousel
 	if ($('.single-item-carousel').length) {
@@ -250,7 +250,7 @@
 	//Gallery Carousel
 	if ($('.gallery-carousel').length) {
 		$('.gallery-carousel').owlCarousel({
-			loop:false,
+			loop:true,
 			margin:0,
 			nav:true,
 			smartSpeed: 500,
@@ -258,21 +258,18 @@
 			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
 			responsive:{
 				0:{
-					items:1
-				},
-				600:{
 					items:2
 				},
-				800:{
+				600:{
 					items:3
 				},
-				1024:{
+				800:{
 					items:4
 				},
-				1200:{
+				1024:{
 					items:5
 				},
-				1400:{
+				1200:{
 					items:6
 				}
 			}
