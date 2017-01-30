@@ -1902,6 +1902,18 @@ ul,li{
 	-moz-transition: all 500ms ease;	
 }
 
+.individual img{
+	height: 346px !important;
+	width: 271px !important;
+}
+
+.individual{
+	display: flex !important;
+	justify-content: center !important;
+	align-content: center !important;
+	align-items: center !important;
+}
+
 .individual-column:hover .image-box .overlay-box{
 	top:0px;	
 }
@@ -3022,7 +3034,7 @@ ul,li{
 }
 
 .featured-individual-column .lower-content{
-	padding-right:40px;	
+	padding-right:0px;
 }
 
 .featured-individual-column .lower-content h3{
