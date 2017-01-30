@@ -769,6 +769,12 @@ ul,li{
 	background:#333333;	
 }
 
+.text-menu{
+	font-weight: bold;
+	font-family: 'Tangerine', cursive;
+	font-size: 20px;
+}
+
 .header-style-two .menu-container{
 	float:right;	
 }
