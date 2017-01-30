@@ -185,7 +185,10 @@
 					items:6
 				}
 			}
-		});    		
+		});
+
+
+		$('.sponsors-carousel .owl-stage').css('width', '315px')
 	}
 	
 	
