@@ -122,7 +122,7 @@ ul,li{list-style:none;padding:0px;margin:0px;}
 .main-menu .navigation{position:relative;margin:0px;font-family:'Source Sans Pro',sans-serif;}
 .main-menu .navigation > li{position:relative;float:left;margin-right:40px;padding:0px;}
 .sticky-header .main-menu .navigation > li{margin-right:0px;margin-left:25px;}
-.main-menu .navigation > li > a{position:relative;display:block;padding:20px 0px;font-size:14px;color:#27343e;font-weight:600;line-height:20px;border-top:none;text-transform:uppercase;letter-spacing:1px;opacity:1;transition:all 500ms ease;-moz-transition:all 500ms ease;-webkit-transition:all 500ms ease;-ms-transition:all 500ms ease;-o-transition:all 500ms ease;}
+.main-menu .navigation > li > a{position:relative;display:block;padding:20px 0px;font-size:13px;color:#27343e;font-weight:600;line-height:20px;border-top:none;text-transform:uppercase;letter-spacing:1px;opacity:1;transition:all 500ms ease;-moz-transition:all 500ms ease;-webkit-transition:all 500ms ease;-ms-transition:all 500ms ease;-o-transition:all 500ms ease;}
 .sticky-header .main-menu .navigation > li > a{font-size:13px;padding:20px 0px !important;color:#27343e !important;letter-spacing:0px;}
 .header-style-two .main-menu .navigation > li > a{padding:40px 0px;}
 .header-style-two .main-menu .navigation > li > a,
