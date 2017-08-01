@@ -134,11 +134,12 @@
 
 
 	//Event Countdown Timer
-	if($('.time-countdown').length){  
+	if($('.time-countdown').length){
 		$('.time-countdown').each(function() {
 		var $this = $(this), finalDate = $(this).data('countdown');
+
 		$this.countdown(finalDate, function(event) {
-			var $this = $(this).html(event.strftime('' + '<div class="counter-column"><span class="count">%m</span>Meses</div>' + '<div class="counter-column"><span class="count">%d</span>Dias</div> ' + '<div class="counter-column"><span class="count">%H</span>Horas</div>  ' + '<div class="counter-column"><span class="count">%M</span>Minutos</div>  ' + '<div class="counter-column"><span class="count">%S</span>Segundos</div>'));
+			var $this = $(this).html(event.strftime('' + '<div class="counter-column"><span class="count">%m</span>Meses</div>' + '<div class="counter-column"><span class="count">%n</span>Dias</div> ' + '<div class="counter-column"><span class="count">%H</span>Horas</div>  ' + '<div class="counter-column"><span class="count">%M</span>Minutos</div>  ' + '<div class="counter-column"><span class="count">%S</span>Segundos</div>'));
 		});
 	 });
 	}
@@ -264,17 +265,18 @@
 					items:2
 				},
 				600:{
-					items:3
+					items:2
 				},
 				800:{
-					items:4
+					items:3
 				},
 				1024:{
-					items:5
+					items:4
 				},
 				1200:{
-					items:6
+					items:5
 				}
+
 			}
 		});    		
 	}
